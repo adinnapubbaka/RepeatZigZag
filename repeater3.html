@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Tags for Google Search -->
+    <title>Repeat ZigZag - Text Generator by Honorable Sachitha Bimsara</title>
+    <meta name="description" content="Generate customizable zigzag text patterns instantly. Created by Honorable Sachitha Bimsara.">
+    <meta name="author" content="Honorable Sachitha Bimsara">
+    <meta name="keywords" content="zigzag text generator, repeat text, text pattern generator">
+
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.12);
+            --accent-purple: #a855f7;
+            --accent-pink: #ec4899;
+            --text-light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-light);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 28px;
+            max-width: 550px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        h2 {
+            margin-top: 0;
+            text-align: center;
+            background: linear-gradient(to right, var(--accent-pink), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+
+        label {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            margin-top: 12px;
+            display: block;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            margin: 6px 0 14px 0;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.2);
+            color: #fff;
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--accent-purple);
+        }
+
+        .btn-main {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: linear-gradient(to right, var(--accent-purple), var(--accent-pink));
+            color: #fff;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+            margin-top: 8px;
+        }
+
+        .btn-main:active {
+            transform: scale(0.98);
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        .btn-copy:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        pre {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px;
+            overflow-x: auto;
+            max-height: 300px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            color: #e2e8f0;
+            white-space: pre;
+            margin-top: 8px;
+        }
+
+        .footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            border-top: 1px solid var(--border-color);
+            padding-top: 16px;
+        }
+
+        .footer span {
+            color: var(--accent-pink);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>REPEATZIGZAG.COM</h2>
+
+        <label for="wordInput">Enter the word you want to repeat:</label>
+        <input type="text" id="wordInput" placeholder="e.g. Hello">
+
+        <label for="countInput">How many times to repeat:</label>
+        <input type="number" id="countInput" placeholder="e.g. 100" min="1">
+
+        <button class="btn-main" onclick="generateZigzag()">Generate Zigzag</button>
+
+        <div class="output-header">
+            <label>Output:</label>
+            <button class="btn-copy" onclick="copyOutput()" id="copyBtn">📋 Copy</button>
+        </div>
+
+        <pre id="output"></pre>
+
+        <div class="footer">
+            Created with ❤️ by <span>Honorable Sachitha Bimsara</span>
+        </div>
+    </div>
+
+    <script>
+        function generateZigzag() {
+            const word = document.getElementById('wordInput').value;
+            const count = parseInt(document.getElementById('countInput').value);
+            const outputElement = document.getElementById('output');
+
+            if (!word) {
+                alert("Please enter a word!");
+                return;
+            }
+
+            if (isNaN(count) || count <= 0) {
+                alert("Enter a larger number than zero!");
+                return;
+            }
+
+            let result = "";
+            let p = 0;
+            let di = 1;
+
+            for (let i = 0; i < count; i++) {
+                result += " ".repeat(p) + word + "\n";
+                p += di;
+                if (p === 0 || p === 60) {
+                    di *= -1;
+                }
+            }
+
+            outputElement.textContent = result;
+        }
+
+        function copyOutput() {
+            const outputText = document.getElementById('output').textContent;
+            const copyBtn = document.getElementById('copyBtn');
+
+            if (!outputText) {
+                alert("Nothing to copy yet!");
+                return;
+            }
+
+            navigator.clipboard.writeText(outputText).then(() => {
+                copyBtn.textContent = "✅ Copied!";
+                setTimeout(() => {
+                    copyBtn.textContent = "📋 Copy";
+                }, 2000);
+            }).catch(err => {
+                alert("Failed to copy text.");
+            });
+        }
+    </script>
+
+</body>
+</html>
